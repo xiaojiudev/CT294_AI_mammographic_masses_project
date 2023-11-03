@@ -14,11 +14,11 @@ column_names = [
 ]
 
 # Load the dataset
-file_path = "mammographic_masses.data.txt"
+file_path = "dataset/mammographic_masses.data.txt"
 dataset = pd.read_csv(file_path, na_values=['?'], names=column_names, delimiter=",")
 
 # Display the first 3 rows in dataset
-print(dataset.head(5))
+print(dataset)
 
 # Display dataset to evaluate whether data needs cleaning
 print(dataset.describe().transpose())
