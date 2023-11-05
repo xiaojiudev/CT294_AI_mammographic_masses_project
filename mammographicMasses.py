@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 # Define column names
 column_names = [
@@ -36,6 +38,7 @@ sns.barplot(x=percent_result.index, y=percent_result)
 plt.xlabel('Attributes')
 plt.ylabel('% Missing')
 plt.title('Percentage of Missing Values by Attribute')
+plt.savefig("Report/NaN_values.png")
 # plt.show()
 
 
@@ -59,3 +62,10 @@ print(new_dataset)
 
 # Check new dataset is having missing value?
 print(new_dataset.isnull().sum())
+
+X_train, X_test, y_train, y_test = train_test_split(attributes, label, test_size=0.25, random_state=42)
+scaler = StandardScaler()
+scaler_X = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+print(scaler_X)

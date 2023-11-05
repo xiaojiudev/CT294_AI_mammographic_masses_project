@@ -28,9 +28,6 @@ new_dataset = dataset.dropna()
 attributes = new_dataset.drop(['Severity', 'BI-RADS'], axis=1)
 label = np.array(new_dataset['Severity'])
 
-scaler = StandardScaler()
-scaler_X = scaler.fit_transform(attributes)
-
 # Bayes
 loop_range = range(1, 51)
 

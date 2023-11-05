@@ -3,13 +3,11 @@ import itertools
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import seaborn as sns
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 
-# Define column names
 column_names = [
     "BI-RADS",
     "Age",
@@ -19,24 +17,20 @@ column_names = [
     "Severity"
 ]
 
-# Load the dataset
 file_path = "../dataset/mammographic_masses.data.txt"
 dataset = pd.read_csv(file_path, na_values=["?"], names=column_names, delimiter=",")
 
-# Data seems randomly distributed, so drop all rows having missing value
 new_dataset = dataset.dropna()
 
 attributes = new_dataset.drop(["Severity", "BI-RADS"], axis=1)
 label = np.array(new_dataset["Severity"])
 
-# Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(attributes, label, test_size=0.25, random_state=42)
 
 # Normalized data
 scaler = StandardScaler()
 scaler_X = scaler.fit_transform(X_train)
 
-# Create the KNN classifier
 knn = KNeighborsClassifier()
 
 loop_range = range(1, 51)
@@ -48,7 +42,6 @@ param_grid = {"n_neighbors": list(range(1, 21))}
 grid_search = GridSearchCV(knn, param_grid, cv=10, scoring="accuracy")
 grid_search.fit(scaler_X, y_train)
 
-# Get the best K value
 best_K = grid_search.best_params_["n_neighbors"]
 print("Best K=", best_K)
 
@@ -77,7 +70,6 @@ knn_cm_list = []
 for j in loop_range:
     X_train, X_test, y_train, y_test = train_test_split(attributes, label, test_size=0.25)
 
-    # Standardize the features (normalize)
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
