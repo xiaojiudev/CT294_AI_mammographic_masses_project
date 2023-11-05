@@ -83,7 +83,6 @@ for i, acc in enumerate(accuracies):
 
 plt.savefig("images/svm_kernel_accuracies.png")
 
-# Begin to split, train and test model
 svm_accuracies = []
 svm_precisions = []
 svm_recalls = []

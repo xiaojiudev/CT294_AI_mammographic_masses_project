@@ -18,26 +18,21 @@ column_names = [
     "Severity"
 ]
 
-# Load the dataset
 file_path = "../dataset/mammographic_masses.data.txt"
 dataset = pd.read_csv(file_path, na_values=["?"], names=column_names, delimiter=",")
 
-# Data preprocessing
 new_dataset = dataset.dropna()
 
 # Split the data into attributes and labels
 attributes = new_dataset.drop(["Severity", "BI-RADS"], axis=1)
 label = np.array(new_dataset["Severity"])
 
-# Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(attributes, label, test_size=0.25, random_state=42)
 
-# Normalize the data
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-# Create the Decision Tree classifier
 dt = DecisionTreeClassifier()
 
 param_grid = {
@@ -45,15 +40,12 @@ param_grid = {
     'criterion': ['gini', 'entropy'],
 }
 
-# Create GridSearchCV object
 grid_search = GridSearchCV(dt, param_grid, cv=10, scoring='accuracy')
 grid_search.fit(X_train, y_train)
 
-# Get the best hyperparameters
 best_max_depth = grid_search.best_params_['max_depth'] - 1
 best_criterion = grid_search.best_params_['criterion']
 
-# Print the best hyperparameters
 print("Best Decision Tree - Max Depth:", best_max_depth)
 print("Best Decision Tree - Criterion:", best_criterion)
 
@@ -64,12 +56,11 @@ accuracy_matrix = np.zeros((len(max_depths), len(criterion_options)))
 
 for i, max_depth in enumerate(max_depths):
     for j, criterion in enumerate(criterion_options):
-        # Create the Decision Tree classifier
+
         dt = DecisionTreeClassifier(max_depth=max_depth, criterion=criterion)
         dt.fit(X_train, y_train)
         y_pred = dt.predict(X_test)
 
-        # Calculate accuracy
         accuracy = accuracy_score(y_test, y_pred)
         accuracy_matrix[i, j] = accuracy
 

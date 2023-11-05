@@ -27,7 +27,6 @@ label = np.array(new_dataset["Severity"])
 
 X_train, X_test, y_train, y_test = train_test_split(attributes, label, test_size=0.25, random_state=42)
 
-# Normalized data
 scaler = StandardScaler()
 scaler_X = scaler.fit_transform(X_train)
 
@@ -38,7 +37,6 @@ loop_range = range(1, 51)
 # Define a range of K values to search for
 param_grid = {"n_neighbors": list(range(1, 21))}
 
-# Use GridSearchCV to find the best K value
 grid_search = GridSearchCV(knn, param_grid, cv=10, scoring="accuracy")
 grid_search.fit(scaler_X, y_train)
 

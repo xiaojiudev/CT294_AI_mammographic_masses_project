@@ -19,7 +19,6 @@ column_names = [
     "Severity"
 ]
 
-# Load the dataset
 file_path = "../dataset/mammographic_masses.data.txt"
 dataset = pd.read_csv(file_path, na_values=['?'], names=column_names, delimiter=",")
 
@@ -37,16 +36,13 @@ gaussian_recalls = []
 gaussian_f1_scores = []
 gaussian_cm_list = []
 
-# Split the data into training and testing sets
 for j in loop_range:
     X_train, X_test, y_train, y_test = train_test_split(attributes, label, test_size=0.25)
 
-    # Normalized data
     scaler = StandardScaler()
     scaler_X_train = scaler.fit_transform(X_train)
     scaler_X_test = scaler.transform(X_test)
 
-    # Create the Gaussian Naive Bayes classifier
     gaussian_nb = GaussianNB()
     gaussian_nb.fit(scaler_X_train, y_train)
 
